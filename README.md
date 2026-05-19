@@ -51,6 +51,24 @@ For the authorization step, PowerOIDC supports a manual flow. The tool opens the
 
 This avoids the need for the tool to run a local HTTP listener, which can be blocked or restricted in some environments.
 
+## Screenshots
+
+### 1. Configuration
+
+![Configuration](assets/1.png)
+
+### 2. Test view
+
+![Test view](assets/2.png)
+
+### 3. Manual authorization flow
+
+![Manual authorization flow](assets/2.1.png)
+
+### 4. Results
+
+![Results](assets/3.png)
+
 ## Requirements
 
 Recommended:
