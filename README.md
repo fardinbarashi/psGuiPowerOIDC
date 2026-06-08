@@ -1,5 +1,5 @@
 # PowerOIDC
-PowerOIDC is a local PowerShell/WPF tool for testing OpenID Connect (OIDC) flows from a Windows client.
+PowerOIDC is a local PowerShell/XAML tool for testing OpenID Connect (OIDC) flows from a Windows client.
 The tool was created for environments where external online OIDC testing tools are not always available or appropriate to use, for example due to strict network rules, firewall restrictions, customer security policies, or isolated environments.
 Instead of relying on web-based tools, PowerOIDC runs locally and helps validate the most common parts of an OIDC integration directly from the client machine.
 
