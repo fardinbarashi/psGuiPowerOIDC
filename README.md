@@ -1,6 +1,6 @@
 # PowerOIDC
 
-![](assets/oidclogo.png)
+![](https://raw.githubusercontent.com/fardinbarashi/psGuiPowerOIDC/refs/heads/main/githubRepoContentDeleteIfYouWant/IMG/oidclogo.png)
 
 PowerOIDC is a local PowerShell/XAML tool for testing OpenID Connect (OIDC) flows from a Windows client.
 The tool was created for environments where external online OIDC testing tools are not always available or appropriate to use, for example due to strict network rules, firewall restrictions, customer security policies, or isolated environments.
@@ -45,16 +45,16 @@ This avoids the need for the tool to run a local HTTP listener, which can be blo
 
 ## Screenshots
 ### 1. Configuration
-![Configuration](assets/1.jpg)
+![Configuration](https://raw.githubusercontent.com/fardinbarashi/psGuiPowerOIDC/refs/heads/main/githubRepoContentDeleteIfYouWant/IMG/1.jpg)
 
 ### 2. Test view
-![Test view](assets/2.jpg)
+![Test view](https://raw.githubusercontent.com/fardinbarashi/psGuiPowerOIDC/refs/heads/main/githubRepoContentDeleteIfYouWant/IMG/2.jpg)
 
 ### 3. Manual authorization flow
-![Manual authorization flow](assets/2.1.jpg)
+![Manual authorization flow](https://raw.githubusercontent.com/fardinbarashi/psGuiPowerOIDC/refs/heads/main/githubRepoContentDeleteIfYouWant/IMG/2.1.jpg)
 
 ### 4. Results
-![Results](assets/3.jpg)
+![Results](https://raw.githubusercontent.com/fardinbarashi/psGuiPowerOIDC/refs/heads/main/githubRepoContentDeleteIfYouWant/IMG/3.jpg)
 
 ## Requirements
 Recommended:
