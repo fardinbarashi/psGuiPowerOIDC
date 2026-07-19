@@ -1,0 +1,51 @@
+{
+  "name": "Power OIDC",
+  "version": "1.0",
+
+  "configheader1": "Configuration",
+  "configtext1": "OIDC Configuration",
+  "configtext2": "Enter your OIDC configuration below",
+
+  "configclientidtext1": "Client ID",
+  "configclientidtext2": "Unique identifier for your OIDC application",
+
+  "configclientsecrettext1": "Client Secret",
+  "configclientsecrettext2": "Secret key for authentication (stored locally)",
+
+  "configissuertext1": "Issuer (Provider)",
+  "configissuertext2": "URL to your OpenID Connect provider",
+
+  "configredirecturitext1": "Redirect URI",
+  "configredirecturitext2": "Where the user is redirected after login",
+
+  "configscopetext1": "Scope",
+  "configscopetext2": "Which permissions should be requested (separate with spaces)",
+
+  "configbutton1": "Save Configuration",
+  "configbutton2": "Restore Defaults",
+  "configbutton3": "Validate",
+
+  "configstatussaved": "Configuration saved!",
+
+  "testheader1": "Test",
+  "testbutton1": "START FULL TEST",
+  "testprogresstext": "0 / 11 steps completed",
+  "testprogressdetail": "Ready to start test...",
+
+  "teststep1title": "Discovery Endpoint",
+  "teststep1message": "Discovery endpoint works correctly",
+
+  "teststep2title": "JWKS Endpoint",
+  "teststep2message": "JWKS fetched - 2 keys found",
+
+  "teststep3title": "UserInfo Endpoint",
+  "teststep3message": "Error: Access token is invalid or expired",
+
+  "badgejson": "JSON",
+
+  "resultsheader1": "Results",
+  "resultsbutton1": "Copy All",
+  "resultsbutton2": "Export JSON",
+  "resultsbutton3": "Clear",
+  "resultsplaceholder": "Results will appear here after running a test..."
+}
