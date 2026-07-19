@@ -6,6 +6,22 @@ PowerOIDC is a local PowerShell/XAML tool for testing OpenID Connect (OIDC) flow
 The tool was created for environments where external online OIDC testing tools are not always available or appropriate to use, for example due to strict network rules, firewall restrictions, customer security policies, or isolated environments.
 Instead of relying on web-based tools, PowerOIDC runs locally and helps validate the most common parts of an OIDC integration directly from the client machine.
 
+## Why this tool exists
+In many customer environments, using public online OIDC debugging tools is not possible. The client network may block external services, or security policies may prevent sending configuration details, tokens, or identity-related data to third-party websites.
+PowerOIDC was built to make troubleshooting easier in those situations.
+It allows the user to run the OIDC test locally, keep the test data inside the environment, and export structured JSON output for further analysis.
+
+## Security notes
+```
+The tool may display sensitive data such as:
+- Client secrets
+- Authorization codes
+- Access tokens
+- ID tokens
+- Refresh tokens
+- User claims
+```
+
 ## Features
 PowerOIDC can help test and inspect:
 ```
@@ -24,10 +40,6 @@ PowerOIDC can help test and inspect:
 - Optional old refresh token reuse check
 - JSON export of test results
 ```
-## Why this tool exists
-In many customer environments, using public online OIDC debugging tools is not possible. The client network may block external services, or security policies may prevent sending configuration details, tokens, or identity-related data to third-party websites.
-PowerOIDC was built to make troubleshooting easier in those situations.
-It allows the user to run the OIDC test locally, keep the test data inside the environment, and export structured JSON output for further analysis.
 
 ## How it works
 PowerOIDC uses a graphical interface built with PowerShell and WPF.
@@ -65,17 +77,6 @@ Minimum:
 
 ## Configuration
 The tool expects configuration files under the `Settings` folder.
-Example structure:
-
-```text
-PowerOIDC/
-├── PowerOIDC.ps1
-├── Settings/
-│   ├── appconfig.json
-│   └── oidcConfig.json
-└── Logs/
-```
-
 Example `oidcConfig.json`:
 
 ```json
@@ -149,17 +150,6 @@ The JSON output may include:
 - Refreshed ID token claims
 - Refreshed UserInfo claims
 ```
-## Security notes
-```
-The tool may display sensitive data such as:
-- Client secrets
-- Authorization codes
-- Access tokens
-- ID tokens
-- Refresh tokens
-- User claims
-```
 
-## License
 
-Add your preferred license here, for example MIT, Apache-2.0, or a private/internal-use license.
+
