@@ -11,21 +11,21 @@
     <img src="icons/icon48.png" alt="" class="logo" />
     <div>
       <h1>PowerOIDC</h1>
-      <p class="subtitle">Lokal OIDC-verifiering i webbläsaren</p>
+      <p class="subtitle">Local OIDC verification in the browser</p>
     </div>
   </header>
 
   <nav class="tabs">
-    <button class="tab active" data-tab="config">Konfiguration</button>
+    <button class="tab active" data-tab="config">Configuration</button>
     <button class="tab" data-tab="test">Test</button>
-    <button class="tab" data-tab="results">Resultat</button>
+    <button class="tab" data-tab="results">Results</button>
   </nav>
 
   <!-- CONFIG -->
   <section class="panel active" data-panel="config">
     <div class="card">
-      <h2>OIDC-konfiguration</h2>
-      <p class="muted">Fyll i din OIDC-konfiguration nedan. Värdena sparas lokalt i webbläsaren.</p>
+      <h2>OIDC configuration</h2>
+      <p class="muted">Enter your OIDC configuration below. Values are stored locally in your browser.</p>
 
       <label>Client ID
         <input id="clientId" type="text" autocomplete="off" spellcheck="false" placeholder="your-client-id" />
@@ -44,17 +44,17 @@
       </label>
 
       <fieldset class="redirect-mode">
-        <legend>Redirect-hantering</legend>
-        <label class="radio"><input type="radio" name="redirectMode" value="manual" checked /> Manuell inklistring (fungerar med vilken registrerad redirect URI som helst)</label>
-        <label class="radio"><input type="radio" name="redirectMode" value="auto" /> Automatisk fångst (webbläsarens inloggningsfönster)</label>
+        <legend>Redirect handling</legend>
+        <label class="radio"><input type="radio" name="redirectMode" value="manual" checked /> Manual paste (works with any registered redirect URI)</label>
+        <label class="radio"><input type="radio" name="redirectMode" value="auto" /> Automatic capture (browser's login window)</label>
         <p id="redirectHint" class="hint"></p>
-        <button id="useExtRedirect" class="btn btn-ghost hidden" type="button">Använd tilläggets redirect URI</button>
+        <button id="useExtRedirect" class="btn btn-ghost hidden" type="button">Use extension redirect URI</button>
       </fieldset>
 
       <div class="btn-row">
-        <button id="saveConfig" class="btn btn-primary" type="button">Spara konfiguration</button>
-        <button id="restoreConfig" class="btn" type="button">Återställ standard</button>
-        <button id="validateConfig" class="btn" type="button">Validera</button>
+        <button id="saveConfig" class="btn btn-primary" type="button">Save configuration</button>
+        <button id="restoreConfig" class="btn" type="button">Restore defaults</button>
+        <button id="validateConfig" class="btn" type="button">Validate</button>
       </div>
       <p id="configStatus" class="status"></p>
     </div>
@@ -64,22 +64,22 @@
   <section class="panel" data-panel="test">
     <div class="card">
       <div class="test-top">
-        <button id="startTest" class="btn btn-primary btn-big" type="button">STARTA FULLT TEST</button>
+        <button id="startTest" class="btn btn-primary btn-big" type="button">START FULL TEST</button>
         <div class="progress-wrap">
           <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
           <div class="progress-meta">
-            <span id="progressCount">0 / 12 steg</span>
+            <span id="progressCount">0 / 12 steps</span>
             <span id="progressDetail" class="muted"></span>
           </div>
         </div>
       </div>
 
       <div id="manualBox" class="manual-box hidden">
-        <p><strong>Klistra in den fullständiga redirect-URL:en</strong> från webbläsarens adressfält efter inloggning (eller enbart <code>code</code>-värdet):</p>
+        <p><strong>Paste the full redirected URL</strong> from the browser address bar after login (or just the <code>code</code> value):</p>
         <textarea id="manualInput" rows="3" placeholder="http://localhost:44300/signin-oidc?code=...&state=..."></textarea>
         <div class="btn-row">
-          <button id="manualContinue" class="btn btn-primary" type="button">Fortsätt</button>
-          <button id="manualCancel" class="btn" type="button">Avbryt</button>
+          <button id="manualContinue" class="btn btn-primary" type="button">Continue</button>
+          <button id="manualCancel" class="btn" type="button">Cancel</button>
         </div>
       </div>
 
@@ -90,18 +90,18 @@
   <!-- RESULTS -->
   <section class="panel" data-panel="results">
     <div class="card">
-      <h2>Resultat (JSON)</h2>
+      <h2>Results (JSON)</h2>
       <div class="btn-row">
-        <button id="copyResults" class="btn" type="button">Kopiera allt</button>
-        <button id="exportResults" class="btn btn-primary" type="button">Exportera JSON</button>
-        <button id="clearResults" class="btn" type="button">Rensa</button>
+        <button id="copyResults" class="btn" type="button">Copy all</button>
+        <button id="exportResults" class="btn btn-primary" type="button">Export JSON</button>
+        <button id="clearResults" class="btn" type="button">Clear</button>
       </div>
-      <textarea id="resultsJson" class="results-json" spellcheck="false" placeholder="Resultat visas här efter att ett test körts..."></textarea>
+      <textarea id="resultsJson" class="results-json" spellcheck="false" placeholder="Results will appear here after a test run..."></textarea>
     </div>
   </section>
 
   <footer class="app-footer">
-    <span class="muted">PowerOIDC — visar känsliga värden (secrets, koder, tokens, claims). Använd endast i test/lab.</span>
+    <span class="muted">PowerOIDC — displays sensitive values (secrets, codes, tokens, claims). Use only in test/lab.</span>
   </footer>
 
   <script type="module" src="app.js"></script>

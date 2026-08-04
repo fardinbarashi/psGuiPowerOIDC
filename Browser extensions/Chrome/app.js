@@ -67,7 +67,7 @@ function selectTab(name) {
 
 /* ----------------------------- step rendering ----------------------------- */
 
-const STATUS_LABEL = { Success: "OK", Error: "FEL", Warning: "VARNING", Info: "INFO" };
+const STATUS_LABEL = { Success: "OK", Error: "ERROR", Warning: "WARNING", Info: "INFO" };
 
 function addStepResult({ title, message, status = "Info", json }) {
   const panel = $("stepResults");
@@ -118,7 +118,7 @@ function addStepResult({ title, message, status = "Info", json }) {
 function updateProgress(step, total, detail) {
   const pct = Math.round((step / total) * 100);
   $("progressBar").style.width = `${pct}%`;
-  $("progressCount").textContent = `${step} / ${total} steg`;
+  $("progressCount").textContent = `${step} / ${total} steps`;
   $("progressDetail").textContent = detail || "";
 }
 
@@ -131,7 +131,7 @@ function resetRun() {
   $("stepResults").replaceChildren();
   $("resultsJson").value = "";
   for (const k of Object.keys(results)) delete results[k];
-  updateProgress(0, 12, "Redo att starta test...");
+  updateProgress(0, 12, "Ready to start test...");
 }
 
 /* ----------------------------- redirect capture ----------------------------- */
@@ -152,17 +152,17 @@ function updateRedirectModeHint() {
     const uri = getExtensionRedirectUri();
     hint.replaceChildren();
     if (uri) {
-      hint.append("Automatiskt läge använder webbläsarens inloggningsfönster. Registrera denna redirect URI hos din IdP:");
+      hint.append("Automatic mode uses the browser's login window. Register this redirect URI with your IdP:");
       hint.appendChild(document.createElement("br"));
       const code = document.createElement("code");
       code.textContent = uri;
       hint.appendChild(code);
     } else {
-      hint.textContent = "Automatiskt läge kräver identity-API:t (kunde inte hämta redirect URI).";
+      hint.textContent = "Automatic mode requires the identity API (could not obtain a redirect URI).";
     }
     btn.classList.remove("hidden");
   } else {
-    hint.textContent = "Manuellt läge: auth-URL öppnas i en ny flik. Efter inloggning klistrar du in hela redirect-URL:en nedan.";
+    hint.textContent = "Manual mode: the authorization URL opens in a new tab. After login, paste the full redirected URL below.";
     btn.classList.add("hidden");
   }
 }
@@ -198,7 +198,7 @@ function captureAuthManual(authUrl) {
       cleanup();
       resolve(val);
     };
-    const onCancel = () => { cleanup(); reject(new Error("Manuell inmatning avbröts")); };
+    const onCancel = () => { cleanup(); reject(new Error("Manual input cancelled")); };
     cont.addEventListener("click", onContinue);
     cancel.addEventListener("click", onCancel);
   });
@@ -486,10 +486,10 @@ function validateConfig() {
     .filter(([, v]) => !v).map(([k]) => k);
   const el = $("configStatus");
   if (missing.length) {
-    el.textContent = `Saknas: ${missing.join(", ")}`;
+    el.textContent = `Missing: ${missing.join(", ")}`;
     el.className = "status status-error";
   } else {
-    el.textContent = "Konfigurationen ser komplett ut.";
+    el.textContent = "The configuration looks complete.";
     el.className = "status status-ok";
   }
 }
@@ -504,7 +504,7 @@ async function init() {
   $("saveConfig").addEventListener("click", async () => {
     await saveConfig(readForm());
     const el = $("configStatus");
-    el.textContent = "Konfiguration sparad!";
+    el.textContent = "Configuration saved!";
     el.className = "status status-ok";
   });
   $("restoreConfig").addEventListener("click", () => { writeForm({ ...DEFAULT_CONFIG }); });
@@ -517,7 +517,7 @@ async function init() {
   $("startTest").addEventListener("click", () => { runFullTest().catch((e) => addStepResult({ title: "Fatal", message: String(e && e.message || e), status: "Error" })); });
 
   $("copyResults").addEventListener("click", async () => {
-    try { await navigator.clipboard.writeText($("resultsJson").value); flash("copyResults", "Kopierat!"); } catch { $("resultsJson").select(); }
+    try { await navigator.clipboard.writeText($("resultsJson").value); flash("copyResults", "Copied!"); } catch { $("resultsJson").select(); }
   });
   $("clearResults").addEventListener("click", resetRun);
   $("exportResults").addEventListener("click", () => {
@@ -529,7 +529,7 @@ async function init() {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   });
 
-  updateProgress(0, 12, "Redo att starta test...");
+  updateProgress(0, 12, "Ready to start test...");
   selectTab("config");
 }
 
