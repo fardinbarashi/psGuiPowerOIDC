@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PowerOIDC — Privacy Policy</title>
+<style>
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #1f2937; }
+  h1 { font-size: 1.7rem; } h2 { font-size: 1.2rem; margin-top: 1.6em; }
+  code { background: #f1f5f9; padding: 1px 5px; border-radius: 4px; }
+  .muted { color: #6b7280; font-size: .9rem; }
+</style>
+</head>
+<body>
+<h1>PowerOIDC — Privacy Policy</h1>
+<p class="muted">Last updated: 2026-08-04</p>
+
+<p>PowerOIDC is a browser extension for testing and verifying OpenID Connect (OIDC)
+configurations locally. This policy explains how it handles data.</p>
+
+<h2>Summary</h2>
+<p>PowerOIDC does <strong>not</strong> collect, transmit, sell, or share any personal
+data with the developer or any third party. Everything the extension does happens
+locally in your browser.</p>
+
+<h2>What data the extension handles</h2>
+<ul>
+  <li><strong>OIDC configuration you enter</strong> (client ID, client secret, issuer
+  URL, redirect URI, scope) is stored <strong>locally</strong> using the extension's
+  local storage (<code>chrome.storage.local</code> / <code>browser.storage.local</code>).
+  It never leaves your device except as part of the OIDC requests you initiate.</li>
+  <li><strong>OIDC responses</strong> (discovery metadata, JWKS, tokens, ID token
+  claims, UserInfo claims) are fetched from the OIDC provider <strong>you specify</strong>
+  and shown in the extension, kept in memory during the test run. They are not sent
+  anywhere else and are not retained after you close the tool, unless you explicitly
+  export them yourself as a JSON file.</li>
+</ul>
+
+<h2>Network requests</h2>
+<p>The extension only communicates with the OIDC provider endpoints derived from the
+configuration <strong>you</strong> enter (discovery, JWKS, authorization, token and
+UserInfo endpoints). It does not contact the developer or any analytics, advertising,
+or third-party service.</p>
+
+<h2>Permissions</h2>
+<ul>
+  <li><code>identity</code> — to run the OIDC authorization code flow (open the
+  provider's login and capture the redirect).</li>
+  <li><code>storage</code> — to save your OIDC test configuration locally.</li>
+  <li><code>tabs</code> — to open the provider's authorization URL and reuse the
+  tool's own tab.</li>
+  <li>Host access — to send test requests to whichever OIDC provider you configure.</li>
+</ul>
+
+<h2>Data sharing and sale</h2>
+<p>None. PowerOIDC does not sell or transfer user data to third parties, does not use
+data for any purpose unrelated to its single purpose (OIDC testing), and does not use
+data to determine creditworthiness or for lending.</p>
+
+<h2>Contact</h2>
+<p>For questions about this policy, contact the publisher at the email address listed
+on the extension's Chrome Web Store / Firefox Add-ons page.</p>
+</body>
+</html>

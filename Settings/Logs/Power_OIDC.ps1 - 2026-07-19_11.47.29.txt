@@ -1,0 +1,30 @@
+**********************
+PowerShell transcript start
+Start time: 20260719114729
+Username: BATTLEPC\Keefa
+RunAs User: BATTLEPC\Keefa
+Configuration Name: 
+Machine: BATTLEPC (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Program Files\PowerShell\7\pwsh.dll -NoProfile -ExecutionPolicy Bypass -Command Import-Module 'c:\Users\Keefa\.vscode\extensions\ms-vscode.powershell-2025.4.0\modules\PowerShellEditorServices\PowerShellEditorServices.psd1'; Start-EditorServices -HostName 'Visual Studio Code Host' -HostProfileId 'Microsoft.VSCode' -HostVersion '2025.4.0' -BundledModulesPath 'c:\Users\Keefa\.vscode\extensions\ms-vscode.powershell-2025.4.0\modules' -EnableConsoleRepl -StartupBanner "PowerShell Extension v2025.4.0
+Copyright (c) Microsoft Corporation.
+
+https://aka.ms/vscode-powershell
+Type 'help' to get help.
+" -LogLevel 'Warning' -LogPath 'c:\Users\Keefa\AppData\Roaming\Code\logs\20260719T113737\window1\exthost\ms-vscode.powershell' -SessionDetailsPath 'c:\Users\Keefa\AppData\Roaming\Code\User\globalStorage\ms-vscode.powershell\sessions\PSES-VSCode-25668-176058.json' -FeatureFlags @() 
+Process ID: 23304
+PSVersion: 7.6.3
+PSEdition: Core
+GitCommitId: 7.6.3
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+2026-07-19 11:47:29
+.. Starting TranScript
+**********************
+PowerShell transcript end
+End time: 20260719114743
+**********************

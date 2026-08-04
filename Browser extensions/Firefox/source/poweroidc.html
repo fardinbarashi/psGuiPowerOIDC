@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PowerOIDC</title>
+  <link rel="stylesheet" href="poweroidc.css" />
+</head>
+<body>
+  <header class="app-header">
+    <img src="icons/icon48.png" alt="" class="logo" />
+    <div>
+      <h1>PowerOIDC</h1>
+      <p class="subtitle">Lokal OIDC-verifiering i webbläsaren</p>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="config">Konfiguration</button>
+    <button class="tab" data-tab="test">Test</button>
+    <button class="tab" data-tab="results">Resultat</button>
+  </nav>
+
+  <!-- CONFIG -->
+  <section class="panel active" data-panel="config">
+    <div class="card">
+      <h2>OIDC-konfiguration</h2>
+      <p class="muted">Fyll i din OIDC-konfiguration nedan. Värdena sparas lokalt i webbläsaren.</p>
+
+      <label>Client ID
+        <input id="clientId" type="text" autocomplete="off" spellcheck="false" placeholder="your-client-id" />
+      </label>
+      <label>Client Secret
+        <input id="clientSecret" type="password" autocomplete="off" spellcheck="false" placeholder="your-client-secret" />
+      </label>
+      <label>Issuer (Provider)
+        <input id="issuer" type="text" autocomplete="off" spellcheck="false" placeholder="https://your-issuer.example.com/oidc" />
+      </label>
+      <label>Redirect URI
+        <input id="redirectUri" type="text" autocomplete="off" spellcheck="false" placeholder="http://localhost:44300/signin-oidc" />
+      </label>
+      <label>Scope
+        <input id="scope" type="text" autocomplete="off" spellcheck="false" placeholder="openid profile email" />
+      </label>
+
+      <fieldset class="redirect-mode">
+        <legend>Redirect-hantering</legend>
+        <label class="radio"><input type="radio" name="redirectMode" value="manual" checked /> Manuell inklistring (fungerar med vilken registrerad redirect URI som helst)</label>
+        <label class="radio"><input type="radio" name="redirectMode" value="auto" /> Automatisk fångst (webbläsarens inloggningsfönster)</label>
+        <p id="redirectHint" class="hint"></p>
+        <button id="useExtRedirect" class="btn btn-ghost hidden" type="button">Använd tilläggets redirect URI</button>
+      </fieldset>
+
+      <div class="btn-row">
+        <button id="saveConfig" class="btn btn-primary" type="button">Spara konfiguration</button>
+        <button id="restoreConfig" class="btn" type="button">Återställ standard</button>
+        <button id="validateConfig" class="btn" type="button">Validera</button>
+      </div>
+      <p id="configStatus" class="status"></p>
+    </div>
+  </section>
+
+  <!-- TEST -->
+  <section class="panel" data-panel="test">
+    <div class="card">
+      <div class="test-top">
+        <button id="startTest" class="btn btn-primary btn-big" type="button">STARTA FULLT TEST</button>
+        <div class="progress-wrap">
+          <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+          <div class="progress-meta">
+            <span id="progressCount">0 / 12 steg</span>
+            <span id="progressDetail" class="muted"></span>
+          </div>
+        </div>
+      </div>
+
+      <div id="manualBox" class="manual-box hidden">
+        <p><strong>Klistra in den fullständiga redirect-URL:en</strong> från webbläsarens adressfält efter inloggning (eller enbart <code>code</code>-värdet):</p>
+        <textarea id="manualInput" rows="3" placeholder="http://localhost:44300/signin-oidc?code=...&state=..."></textarea>
+        <div class="btn-row">
+          <button id="manualContinue" class="btn btn-primary" type="button">Fortsätt</button>
+          <button id="manualCancel" class="btn" type="button">Avbryt</button>
+        </div>
+      </div>
+
+      <div id="stepResults" class="step-results"></div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="panel" data-panel="results">
+    <div class="card">
+      <h2>Resultat (JSON)</h2>
+      <div class="btn-row">
+        <button id="copyResults" class="btn" type="button">Kopiera allt</button>
+        <button id="exportResults" class="btn btn-primary" type="button">Exportera JSON</button>
+        <button id="clearResults" class="btn" type="button">Rensa</button>
+      </div>
+      <textarea id="resultsJson" class="results-json" spellcheck="false" placeholder="Resultat visas här efter att ett test körts..."></textarea>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <span class="muted">PowerOIDC — visar känsliga värden (secrets, koder, tokens, claims). Använd endast i test/lab.</span>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

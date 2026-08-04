@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "PowerOIDC",
+  "version": "3.0.0",
+  "description": "Lokal OIDC-verifiering i webblasaren: discovery, JWKS, auth code-flode, token exchange, ID-token, UserInfo, refresh. Baserad pa PowerOIDC.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "PowerOIDC – oppna verktyget",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["identity", "storage", "tabs"],
+  "host_permissions": ["<all_urls>"]
+}
