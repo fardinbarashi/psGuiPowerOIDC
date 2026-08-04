@@ -4,6 +4,8 @@ Browser ports of PowerOIDC. Each runs the same 12-step OIDC verification flow
 (Section 0–11) as the PowerShell/WPF tool, but inside the browser — with both
 **manual paste** and **automatic** redirect capture.
 
+** Links to Webstore coming soon **
+
 Everything runs locally in the browser. No configuration or token data leaves the
 machine except the calls to the OIDC provider you point it at.
 
