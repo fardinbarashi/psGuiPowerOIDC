@@ -19,7 +19,7 @@ Includes JSON output for:
  - Refreshed UserInfo claims
 
 Structure :
-    Power_OIDC.ps1                     This file. Loads config, UI, functions, wires events.
+    PowerOIDC.ps1                     This file. Loads config, UI, functions, wires events.
     Settings\UI\MainWindow.xaml        The main window as XAML. Contains $($appConfig...)
                                        and $($oidcConfig...) tokens that are filled in from
                                        the config files before the XAML is parsed.
@@ -30,10 +30,10 @@ Structure :
 
 
 Version : 3.0
-Release day : 2026-07-19
+Release day : 2026-08-04
 Github Link : https://github.com/fardinbarashi/psGuiPowerOIDC
 News : Split into UI / Functions / Config / Logs. XAML and each function moved
-       to their own files. Behaviour unchanged.
+       to their own files.
 
 #>
 
@@ -42,7 +42,7 @@ News : Split into UI / Functions / Config / Logs. XAML and each function moved
 $ErrorActionPreference = 'Stop'
 
 $ScriptName   = $MyInvocation.MyCommand.Name
-if (-not $ScriptName) { $ScriptName = 'Power_OIDC.ps1' }
+if (-not $ScriptName) { $ScriptName = 'PowerOIDC.ps1' }
 
 $Script:Root      = if ($PSScriptRoot) { $PSScriptRoot } else { (Get-Location).Path }
 $Script:SettingsPath = Join-Path $Script:Root 'Settings'
