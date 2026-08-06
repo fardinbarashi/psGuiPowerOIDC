@@ -13,7 +13,6 @@ Instead of relying on web-based tools, PowerOIDC runs locally and helps validate
 - [Security notes](#security-notes)
 - [Features](#features)
 - [How it works](#how-it-works)
-- [Browser extensions](#browser-extensions)
 - [Screenshots](#screenshots)
 - [Requirements](#requirements)
 - [Configuration](#configuration)
@@ -21,6 +20,7 @@ Instead of relying on web-based tools, PowerOIDC runs locally and helps validate
 - [Manual authorization code flow](#manual-authorization-code-flow)
 - [Test steps](#test-steps)
 - [Output](#output)
+- [Browser extensions](#browser-extensions)
 
 ## News
 
@@ -214,3 +214,6 @@ The JSON output may include:
 - Refreshed ID token claims
 - Refreshed UserInfo claims
 ```
+----
+## Browser-extensions
+Go to link -> ![link](https://github.com/fardinbarashi/psGuiPowerOIDC/tree/main/Browser%20extensions) 
