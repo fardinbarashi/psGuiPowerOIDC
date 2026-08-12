@@ -59,6 +59,33 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="Auth0Button" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="#eb5424"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#d8461a"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="GoogleButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="#4285f4"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#3367d6"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="CurityButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="#e6007e"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#c40069"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
         <Style x:Key="ModernTextBox" TargetType="TextBox">
             <Setter Property="Background" Value="#2d2d2d"/>
             <Setter Property="Foreground" Value="#e0e0e0"/>
@@ -167,6 +194,14 @@
                         <TextBlock Text="$($appConfig.configscopetext2)" Foreground="#757575" FontSize="10" FontStyle="Italic"/>
                     </StackPanel>
 
+                    <!-- Redirect handling (manual paste vs automatic capture) -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="Redirect handling" Foreground="#b0bec5" FontWeight="SemiBold" FontSize="13" Margin="0,0,0,8"/>
+                        <RadioButton x:Name="ManualRedirectRadio" GroupName="RedirectMode" IsChecked="True" Foreground="#e0e0e0" Margin="0,0,0,6" Content="Manual paste (works with any registered redirect URI)"/>
+                        <RadioButton x:Name="AutoRedirectRadio" GroupName="RedirectMode" Foreground="#e0e0e0" Content="Automatic capture (local listener on the redirect URI)"/>
+                        <TextBlock Text="Manual: paste the redirected URL after login. Automatic: PowerOIDC listens on the http://localhost redirect URI and captures the code for you." Foreground="#757575" FontSize="10" FontStyle="Italic" TextWrapping="Wrap" Margin="0,6,0,0"/>
+                    </StackPanel>
+
                     <Separator Background="#404040" Height="2" Margin="0,0,0,25"/>
 
                     <!-- Buttons -->
@@ -174,6 +209,14 @@
                         <Button x:Name="SaveConfigButton" Content="$($appConfig.configbutton1)" Style="{StaticResource SuccessButton}" Width="200" Height="45" FontSize="13" Margin="0,0,12,0"/>
                         <Button x:Name="ResetButton"      Content="$($appConfig.configbutton2)" Style="{StaticResource ModernButton}"  Width="200" Height="45" FontSize="13" Margin="0,0,12,0"/>
                         <Button x:Name="ValidateButton"   Content="$($appConfig.configbutton3)" Style="{StaticResource ModernButton}"  Width="150" Height="45" FontSize="13"/>
+                    </StackPanel>
+
+                    <!-- Quick-fill presets (openidconnect.net) -->
+                    <TextBlock Text="Load default values from openidconnect.net" Foreground="#90caf9" FontSize="12" Margin="0,0,0,8"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10">
+                        <Button x:Name="PresetAuth0Button"  Content="Auth0"       Style="{StaticResource Auth0Button}"  Width="120" Height="40" FontSize="13" Margin="0,0,12,0"/>
+                        <Button x:Name="PresetGoogleButton" Content="Google"      Style="{StaticResource GoogleButton}" Width="120" Height="40" FontSize="13" Margin="0,0,12,0"/>
+                        <Button x:Name="PresetCurityButton" Content="OAuth.tools" Style="{StaticResource CurityButton}" Width="140" Height="40" FontSize="13"/>
                     </StackPanel>
 
                     <!-- Status message -->

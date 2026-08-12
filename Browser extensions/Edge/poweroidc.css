@@ -74,6 +74,16 @@ input:focus, textarea:focus { outline: none; border-color: var(--primary); }
 .btn-big { font-size: 15px; padding: 12px 22px; font-weight: 600; }
 .btn:disabled { opacity: .55; cursor: not-allowed; }
 
+.presets { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+.preset-caption { margin: 0 0 8px; font-size: 12px; color: var(--muted); }
+.preset-caption a { color: #60a5fa; }
+.preset-auth0 { background: #eb5424; border-color: #eb5424; color: #fff; }
+.preset-auth0:hover { background: #d8461a; }
+.preset-google { background: #4285f4; border-color: #4285f4; color: #fff; }
+.preset-google:hover { background: #3367d6; }
+.preset-curity { background: #e6007e; border-color: #e6007e; color: #fff; }
+.preset-curity:hover { background: #c40069; }
+
 .status { margin-top: 14px; font-size: 13px; min-height: 18px; }
 .status-ok { color: var(--ok); }
 .status-error { color: var(--err); }

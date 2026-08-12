@@ -1,0 +1,7 @@
+{
+  "configclientid": "kbyuFDidLLm280LIwVFiazOqjO3ty8KH",
+  "configclientsecret": "60Op4HFM0I8ajz0WdiStAbziZ-VFQttXuxixHHs2R7r7-CW8GR79l-mmLqMhc-Sa",
+  "configissuer": "https://samples.auth0.com/",
+  "configredirecturi": "https://openidconnect.net/callback",
+  "configscopetext1": "openid profile email"
+}

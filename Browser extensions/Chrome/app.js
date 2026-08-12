@@ -20,6 +20,38 @@ const DEFAULT_CONFIG = {
   redirectMode: "manual", // "manual" | "auto"
 };
 
+// Quick-fill presets mirroring the openidconnect.net playground defaults.
+const PRESETS = {
+  // Auth0 public samples tenant used by openidconnect.net — works end to end in manual mode.
+  auth0: {
+    clientId: "kbyuFDidLLm280LIwVFiazOqjO3ty8KH",
+    clientSecret: "60Op4HFM0I8ajz0WdiStAbziZ-VFQttXuxixHHs2R7r7-CW8GR79l-mmLqMhc-Sa",
+    issuer: "https://samples.auth0.com/",
+    redirectUri: "https://openidconnect.net/callback",
+    scope: "openid profile email",
+    redirectMode: "manual",
+  },
+  // Google template as shown on openidconnect.net (demo client id/secret prefilled).
+  google: {
+    clientId: "kbyuFDidLLm280LIwVFiazOqjO3ty8KH",
+    clientSecret: "60Op4HFM0I8ajz0WdiStAbziZ-VFQttXuxixHHs2R7r7-CW8GR79l-mmLqMhc-Sa",
+    issuer: "https://accounts.google.com",
+    redirectUri: "https://openidconnect.net/callback",
+    scope: "openid profile email phone address",
+    redirectMode: "manual",
+  },
+  // OAuth.tools / Curity demo (login-demo.curity.io). Reveal and paste the
+  // demo-web-client secret from oauth.tools — it is not published here.
+  curity: {
+    clientId: "demo-web-client",
+    clientSecret: "",
+    issuer: "https://login-demo.curity.io/oauth/v2/oauth-anonymous",
+    redirectUri: "https://oauth.tools/callback/code",
+    scope: "openid profile read",
+    redirectMode: "manual",
+  },
+};
+
 const $ = (id) => document.getElementById(id);
 const results = {}; // ordered-ish result object; insertion order preserved
 
@@ -237,7 +269,8 @@ async function runFullTest() {
     step++;
     updateProgress(step, totalSteps, "Section 1 : Testing discovery endpoint...");
     discovery = await getDiscovery(cfg.issuer);
-    if (discovery.issuer !== cfg.issuer) throw new Error(`issuer mismatch (expected '${cfg.issuer}', got '${discovery.issuer}')`);
+    const normIss = (s) => String(s || "").replace(/\/+$/, "");
+    if (normIss(discovery.issuer) !== normIss(cfg.issuer)) throw new Error(`issuer mismatch (expected '${cfg.issuer}', got '${discovery.issuer}')`);
     if (!discovery.authorization_endpoint) throw new Error("authorization_endpoint missing");
     if (!discovery.token_endpoint) throw new Error("token_endpoint missing");
     if (!discovery.jwks_uri) throw new Error("jwks_uri missing");
@@ -362,7 +395,8 @@ async function runFullTest() {
     const decoded = decodeJwt(idToken);
     setResult("idTokenHeader", decoded.header);
     setResult("idTokenClaims", decoded.payload);
-    if (decoded.payload.iss !== cfg.issuer) throw new Error("id_token iss mismatch");
+    const normIss2 = (s) => String(s || "").replace(/\/+$/, "");
+    if (normIss2(decoded.payload.iss) !== normIss2(cfg.issuer)) throw new Error("id_token iss mismatch");
     const aud = decoded.payload.aud;
     if (Array.isArray(aud)) {
       if (!aud.includes(cfg.clientId)) throw new Error("id_token aud does not contain clientId");
@@ -373,9 +407,11 @@ async function runFullTest() {
     const nowUnix = Math.floor(Date.now() / 1000);
     if (decoded.payload.exp <= nowUnix) throw new Error("id_token is expired");
     if (decoded.payload.iat > nowUnix + 60) throw new Error("id_token iat is in the future");
-    if (!["RS256", "ES256"].includes(decoded.header.alg)) throw new Error(`Unexpected id_token alg: ${decoded.header.alg}`);
+    if (!["RS256", "ES256", "HS256"].includes(decoded.header.alg)) throw new Error(`Unexpected id_token alg: ${decoded.header.alg}`);
     let kidStatus = "id_token kid has no value";
-    if (decoded.header.kid) {
+    if (String(decoded.header.alg).startsWith("HS")) {
+      kidStatus = "HS256 (symmetric) — not validated against JWKS";
+    } else if (decoded.header.kid) {
       const match = jwks.keys.find((k) => k.kid === decoded.header.kid);
       if (!match) throw new Error(`id_token kid not found in JWKS: ${decoded.header.kid}`);
       kidStatus = "kid found in JWKS";
@@ -509,6 +545,25 @@ async function init() {
   });
   $("restoreConfig").addEventListener("click", () => { writeForm({ ...DEFAULT_CONFIG }); });
   $("validateConfig").addEventListener("click", validateConfig);
+
+  $("presetAuth0").addEventListener("click", () => {
+    writeForm({ ...DEFAULT_CONFIG, ...PRESETS.auth0 });
+    const el = $("configStatus");
+    el.textContent = "Auth0 sample loaded (openidconnect.net). Uses manual paste with redirect https://openidconnect.net/callback.";
+    el.className = "status status-ok";
+  });
+  $("presetGoogle").addEventListener("click", () => {
+    writeForm({ ...DEFAULT_CONFIG, ...PRESETS.google });
+    const el = $("configStatus");
+    el.textContent = "Google preset loaded (openidconnect.net defaults). A real Google login requires your own registered OAuth client.";
+    el.className = "status status-ok";
+  });
+  $("presetCurity").addEventListener("click", () => {
+    writeForm({ ...DEFAULT_CONFIG, ...PRESETS.curity });
+    const el = $("configStatus");
+    el.textContent = "OAuth.tools (Curity demo) loaded. Reveal and paste the demo-web-client secret from oauth.tools, then run in Manual paste.";
+    el.className = "status status-ok";
+  });
   $("useExtRedirect").addEventListener("click", () => {
     const uri = getExtensionRedirectUri();
     if (uri) $("redirectUri").value = uri;

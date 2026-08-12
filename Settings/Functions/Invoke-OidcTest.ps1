@@ -18,10 +18,11 @@ function Invoke-OidcTest {
     # Read values from UI
     $clientId     = $ClientIdInput.Text
     $clientSecret = $ClientSecretInput.Text
-    $issuer       = $IssuerInput.Text
+    $issuer       = $IssuerInput.Text.Trim()
     $redirectUri  = $RedirectUriInput.Text
     $scope        = $ScopeInput.Text
-    $discoveryUrl = "$issuer/.well-known/openid-configuration"
+    $issuerTrimmed = $issuer.TrimEnd("/")
+    $discoveryUrl = "$issuerTrimmed/.well-known/openid-configuration"
 
     $totalSteps = 12
     $stepNumber = 0
@@ -52,7 +53,7 @@ function Invoke-OidcTest {
 
         $discovery = Invoke-RestMethod -Method Get -Uri $discoveryUrl
 
-        if ($discovery.issuer -ne $issuer)                              { throw "issuer mismatch" }
+        if ($discovery.issuer.TrimEnd("/") -ne $issuerTrimmed)          { throw "issuer mismatch" }
         if ([string]::IsNullOrWhiteSpace($discovery.authorization_endpoint)) { throw "authorization_endpoint missing" }
         if ([string]::IsNullOrWhiteSpace($discovery.token_endpoint))    { throw "token_endpoint missing" }
         if ([string]::IsNullOrWhiteSpace($discovery.jwks_uri))          { throw "jwks_uri missing" }
@@ -126,16 +127,28 @@ function Invoke-OidcTest {
 
     try {
         $stepNumber++
-        Update-Progress $stepNumber $totalSteps "Section 4 : Manual browser login..."
+        $useAuto = ($AutoRedirectRadio -and $AutoRedirectRadio.IsChecked)
 
-        Add-StepResult `
-            -Title "Section 4 : Manual browser login" `
-            -Message "Browser will open. After login, copy the redirected URL or authorization code and paste it into the dialog." `
-            -Status "Warning"
+        if ($useAuto) {
+            Update-Progress $stepNumber $totalSteps "Section 4 : Automatic capture (waiting for redirect)..."
+            Add-StepResult `
+                -Title "Section 4 : Automatic capture" `
+                -Message "Browser will open. PowerOIDC is listening on $redirectUri and will capture the redirect automatically." `
+                -Status "Warning"
 
-        Start-Process $authUrl
+            $manualInput = Get-AuthCodeViaHttpListener -AuthorizationUrl $authUrl -RedirectUri $redirectUri -TimeoutSeconds 180
+        }
+        else {
+            Update-Progress $stepNumber $totalSteps "Section 4 : Manual browser login..."
+            Add-StepResult `
+                -Title "Section 4 : Manual browser login" `
+                -Message "Browser will open. After login, copy the redirected URL or authorization code and paste it into the dialog." `
+                -Status "Warning"
 
-        $manualInput = Show-ManualCodeInputDialog -AuthorizationUrl $authUrl -OwnerWindow $window
+            Start-Process $authUrl
+
+            $manualInput = Show-ManualCodeInputDialog -AuthorizationUrl $authUrl -OwnerWindow $window
+        }
 
         $code                  = Get-QueryParameterValue -InputText $manualInput -ParameterName "code"
         $returnedState         = Get-QueryParameterValue -InputText $manualInput -ParameterName "state"
@@ -168,8 +181,8 @@ function Invoke-OidcTest {
         }
 
         Add-StepResult `
-            -Title "Section 4 : Manual authorization code" `
-            -Message "Authorization code received manually" `
+            -Title "Section 4 : Authorization code" `
+            -Message $(if ($useAuto) { "Authorization code captured automatically" } else { "Authorization code received manually" }) `
             -Status "Success"
     }
     catch {
@@ -227,7 +240,7 @@ function Invoke-OidcTest {
         $script:Results.idTokenHeader = $decodedIdToken.Header
         $script:Results.idTokenClaims = $decodedIdToken.Payload
 
-        if ($decodedIdToken.Payload.iss -ne $issuer) { throw "id_token iss mismatch" }
+        if ("$($decodedIdToken.Payload.iss)".TrimEnd("/") -ne $issuerTrimmed) { throw "id_token iss mismatch" }
 
         $aud = $decodedIdToken.Payload.aud
         if ($aud -is [System.Array]) {
@@ -243,10 +256,13 @@ function Invoke-OidcTest {
         if ($decodedIdToken.Payload.exp -le $nowUnix)     { throw "id_token is expired" }
         if ($decodedIdToken.Payload.iat -gt ($nowUnix + 60)) { throw "id_token iat is in the future" }
 
-        if ($decodedIdToken.Header.alg -notin @("RS256", "ES256")) { throw "Unexpected id_token alg: $($decodedIdToken.Header.alg)" }
+        if ($decodedIdToken.Header.alg -notin @("RS256", "ES256", "HS256")) { throw "Unexpected id_token alg: $($decodedIdToken.Header.alg)" }
 
         $kidStatus = "id_token kid has no value"
-        if ($decodedIdToken.Header.kid) {
+        if ("$($decodedIdToken.Header.alg)".StartsWith("HS")) {
+            $kidStatus = "HS256 (symmetric) - not validated against JWKS"
+        }
+        elseif ($decodedIdToken.Header.kid) {
             $matchingKey = $jwks.keys | Where-Object { $_.kid -eq $decodedIdToken.Header.kid }
             if (-not $matchingKey) { throw "id_token kid not found in JWKS: $($decodedIdToken.Header.kid)" }
             $kidStatus = "kid found in JWKS"

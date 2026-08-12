@@ -29,8 +29,8 @@ Structure :
     Settings\Logs\                      Per-run transcripts.
 
 
-Version : 3.0
-Release day : 2026-08-04
+Version : 3.1
+Release day : 2026-08-06
 Github Link : https://github.com/fardinbarashi/psGuiPowerOIDC
 News : Split into UI / Functions / Config / Logs. XAML and each function moved
        to their own files.
@@ -66,6 +66,13 @@ if (-not (Test-Path $oidcConfigPath)) { throw "Cannot find oidcConfig.json at $o
 
 $appConfig  = Get-Content $appConfigPath  -Raw | ConvertFrom-Json
 $oidcConfig = Get-Content $oidcConfigPath -Raw | ConvertFrom-Json
+
+# version.json is the single source of truth for the app version shown in the title.
+$versionPath = Join-Path $Script:ConfigPath 'version.json'
+$versionConfig = $null
+if (Test-Path $versionPath) {
+    try { $versionConfig = Get-Content $versionPath -Raw | ConvertFrom-Json } catch { $versionConfig = $null }
+}
 
 $TranScriptLogFile = Join-Path $Script:LogFolder "$ScriptName - $LogFileDate.txt"
 Start-Transcript -Path $TranScriptLogFile -Force | Out-Null
@@ -107,16 +114,26 @@ $xaml    = $ExecutionContext.InvokeCommand.ExpandString($xamlRaw)
 $reader  = New-Object System.Xml.XmlNodeReader $xamlDoc
 $window  = [Windows.Markup.XamlReader]::Load($reader)
 
+# Show the version from version.json in the window title (falls back to the XAML/appconfig version).
+if ($versionConfig -and $versionConfig.version) {
+    $window.Title = "$($appConfig.name) - $($versionConfig.version)"
+}
+
 # Get UI controls
 $ClientIdInput       = $window.FindName('ClientIdInput')
 $ClientSecretInput   = $window.FindName('ClientSecretInput')
 $IssuerInput         = $window.FindName('IssuerInput')
 $RedirectUriInput    = $window.FindName('RedirectUriInput')
 $ScopeInput          = $window.FindName('ScopeInput')
+$ManualRedirectRadio = $window.FindName('ManualRedirectRadio')
+$AutoRedirectRadio   = $window.FindName('AutoRedirectRadio')
 
 $SaveConfigButton    = $window.FindName('SaveConfigButton')
 $ResetButton         = $window.FindName('ResetButton')
 $ValidateButton      = $window.FindName('ValidateButton')
+$PresetAuth0Button   = $window.FindName('PresetAuth0Button')
+$PresetGoogleButton  = $window.FindName('PresetGoogleButton')
+$PresetCurityButton  = $window.FindName('PresetCurityButton')
 $ConfigStatusBorder  = $window.FindName('ConfigStatusBorder')
 $ConfigStatusText    = $window.FindName('ConfigStatusText')
 
@@ -187,6 +204,46 @@ $ValidateButton.Add_Click({
         $ConfigStatusBorder.Background = '#b71c1c'
         $ConfigStatusText.Text         = "Validation failed: $($errors -join ', ')"
     }
+    $ConfigStatusBorder.Visibility = 'Visible'
+})
+
+# Quick-fill presets mirroring the openidconnect.net playground defaults (same as the browser extension).
+$PresetAuth0Button.Add_Click({
+    $ClientIdInput.Text     = 'kbyuFDidLLm280LIwVFiazOqjO3ty8KH'
+    $ClientSecretInput.Text = '60Op4HFM0I8ajz0WdiStAbziZ-VFQttXuxixHHs2R7r7-CW8GR79l-mmLqMhc-Sa'
+    $IssuerInput.Text       = 'https://samples.auth0.com/'
+    $RedirectUriInput.Text  = 'https://openidconnect.net/callback'
+    $ScopeInput.Text        = 'openid profile email'
+    if ($ManualRedirectRadio) { $ManualRedirectRadio.IsChecked = $true }
+
+    $ConfigStatusBorder.Background = '#eb5424'
+    $ConfigStatusText.Text         = 'Auth0 sample loaded (openidconnect.net). Manual paste with redirect https://openidconnect.net/callback.'
+    $ConfigStatusBorder.Visibility = 'Visible'
+})
+
+$PresetGoogleButton.Add_Click({
+    $ClientIdInput.Text     = 'kbyuFDidLLm280LIwVFiazOqjO3ty8KH'
+    $ClientSecretInput.Text = '60Op4HFM0I8ajz0WdiStAbziZ-VFQttXuxixHHs2R7r7-CW8GR79l-mmLqMhc-Sa'
+    $IssuerInput.Text       = 'https://accounts.google.com'
+    $RedirectUriInput.Text  = 'https://openidconnect.net/callback'
+    $ScopeInput.Text        = 'openid profile email phone address'
+    if ($ManualRedirectRadio) { $ManualRedirectRadio.IsChecked = $true }
+
+    $ConfigStatusBorder.Background = '#4285f4'
+    $ConfigStatusText.Text         = 'Google preset loaded (openidconnect.net defaults). A real Google login needs your own registered OAuth client.'
+    $ConfigStatusBorder.Visibility = 'Visible'
+})
+
+$PresetCurityButton.Add_Click({
+    $ClientIdInput.Text     = 'demo-web-client'
+    $ClientSecretInput.Text = ''
+    $IssuerInput.Text       = 'https://login-demo.curity.io/oauth/v2/oauth-anonymous'
+    $RedirectUriInput.Text  = 'https://oauth.tools/callback/code'
+    $ScopeInput.Text        = 'openid profile read'
+    if ($ManualRedirectRadio) { $ManualRedirectRadio.IsChecked = $true }
+
+    $ConfigStatusBorder.Background = '#e6007e'
+    $ConfigStatusText.Text         = 'OAuth.tools (Curity demo) loaded. Reveal and paste the demo-web-client secret from oauth.tools, then run in Manual paste.'
     $ConfigStatusBorder.Visibility = 'Visible'
 })
 
