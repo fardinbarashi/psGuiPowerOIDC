@@ -26,12 +26,7 @@ Instead of relying on web-based tools, PowerOIDC runs locally and helps validate
 
 ### 3.1
 - **Auth0 / Google / OAuth.tools quick-fill buttons** on the Configuration tab (desktop GUI and browser extensions) that load the openidconnect.net and oauth.tools (Curity demo) playground defaults with one click.
-- **Automatic redirect capture** (a local listener on the redirect URI) alongside manual paste in the desktop GUI — matching the browser extensions.
-- The preset **status box now shows the pressed button's colour**.
 - **Browser extensions** for **Chrome, Edge and Firefox** running the same 12-step flow. See [Browser extensions](#browser-extensions).
-- **Trailing-slash fix**: the desktop discovery URL and the issuer/`iss` comparison now tolerate a trailing slash (Auth0 etc. no longer 404).
-- **HS256 id_tokens accepted** (symmetric; not validated against JWKS), so Auth0 default apps pass. The Auth0/Google preset buttons switch to Manual paste automatically.
-- **`version.json`** is now read by the app and shown in the window title.
 
 ### Beta 3.0
 - The XAML and each function moved to their own files.
