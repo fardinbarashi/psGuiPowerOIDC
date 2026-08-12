@@ -187,15 +187,16 @@ The JSON output may include:
 - Refreshed ID token claims
 - Refreshed UserInfo claims
 ```
-
 ----
-
 ## Browser extensions
 
 PowerOIDC is also available as browser extensions for **Chrome, Edge and Firefox**
 that run the same 12-step verification flow inside the browser, with **manual paste**
 and **automatic** redirect capture, plus the same **Auth0 / Google** quick-fill buttons.
 
-They live under the [`Browser extensions/`](https://github.com/fardinbarashi/psGuiPowerOIDC/tree/main/Browser%20extensions) folder — see the README there for full details.
+They live under the [Browser extensions](https://github.com/fardinbarashi/psGuiPowerOIDC/tree/main/Browser%20extensions) folder — see the README there for full details.
+
+Quick link: ![link](https://github.com/fardinbarashi/psGuiPowerOIDC/tree/main/Browser%20extensions)
 
 **Links to the web stores coming soon.**
+
