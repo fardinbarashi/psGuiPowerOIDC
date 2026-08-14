@@ -65,7 +65,7 @@ PowerOIDC can help test and inspect:
 - Refreshed UserInfo response
 - Optional old refresh token reuse check
 - JSON export of test results
-- Quick-fill buttons (Auth0 / Google / OAuth.tools) for the openidconnect.net and oauth.tools playgrounds
+- Quick-fill buttons (Auth0 / Google) for the openidconnect.net playground
 ```
 
 ## How it works
@@ -79,14 +79,12 @@ The user provides the required OIDC configuration:
 - Scope
 ```
 For quick testing you can also click the **Auth0** or **Google** button on the
-Configuration tab (or **OAuth.tools** for the Curity demo) to load playground defaults instead of
+Configuration tab to load the openidconnect.net playground defaults instead of
 typing the values by hand.
 
 The tool then performs a step-by-step validation of the OIDC flow.
-For the authorization step, PowerOIDC supports two redirect modes, selectable on the Configuration tab:
-
-- **Manual paste** (default) — the tool opens the authorization URL in the browser. After login, the user copies the redirected URL containing the authorization code and pastes it back into the application. This needs no local HTTP listener, which can be blocked or restricted in some environments, and works with any registered redirect URI.
-- **Automatic capture** — PowerOIDC starts a local `HttpListener` on the redirect URI, opens the authorization URL, and captures the code itself when the provider redirects back. This mirrors the browser extension's automatic mode and requires an `http://localhost:<port>/...` redirect URI.
+For the authorization step, PowerOIDC supports a manual flow. The tool opens the authorization URL in the browser. After login, the user copies the redirected URL containing the authorization code and pastes it back into the application.
+This avoids the need for the tool to run a local HTTP listener, which can be blocked or restricted in some environments.
 
 ## Screenshots
 ### 1. Configuration
